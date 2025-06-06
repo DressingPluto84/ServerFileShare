@@ -1,7 +1,7 @@
 #include "userHasher.h"
 
 int hashFunc(uint32_t ipAdd, int port, int size) {
-    uint32_t val = ipAdd + port;
+    uint32_t val = ipAdd;
     return val % size;
 }
 
@@ -22,11 +22,12 @@ int hashSearch(uint32_t ipAdd, int port, struct HashTable* table) {
     return 0;
 }
 
-int hashInsert(uint32_t ipAdd, int port, struct HashTable* table) {
+int hashInsert(uint32_t ipAdd, int port, char* name, struct HashTable* table) {
     int slot = hashFunc(ipAdd, port, table->size);
     struct LinkedAddNode* new = malloc(sizeof(struct LinkedAddNode));
     new->ip = ipAdd;
     new->port = port;
+    new->name = name;
     new->next = NULL;
     if (table->vals[slot] == NULL) {
         (table->vals)[slot] = new;

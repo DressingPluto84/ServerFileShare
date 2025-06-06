@@ -13,7 +13,7 @@ static int numFriends = 0;
 
 void printFriends(struct HashTable* hash);
 
-int addFriend(struct HashTable* hash, uint32_t ip, int port);
+int addFriend(struct HashTable* hash, uint32_t ip, int port, char* name);
 
 int removeFriend(struct HashTable* hash, uint32_t ip, int port);
 

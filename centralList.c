@@ -4,19 +4,19 @@ char pass[64] = "password";
 
 void printFriends(struct HashTable* hash) {
     for (int i = 0; i < hash->size; i++) {
-        if (hash->vals[i] != NULL) {
+        if (hash->vals[i]->name != NULL) {
             struct in_addr ia;
             ia.s_addr = hash->vals[i]->ip;
-            printf("Address: %s:%d\n", inet_ntoa(ia), hash->vals[i]->port);
+            printf("%s: %s:%d\n", hash->vals[i]->name, inet_ntoa(ia), hash->vals[i]->port);
         }
     }
 }
 
-int addFriend(struct HashTable* hash, uint32_t ip, int port) {
+int addFriend(struct HashTable* hash, uint32_t ip, int port, char* name) {
     if (numFriends >= hash->size) {
-        return 0;
+        return -1;
     }
-    int k = hashInsert(ip, port, hash);
+    int k = hashInsert(ip, port, name, hash);
     if (k < 1) {
         fprintf(stderr, "Error adding new Friend");
         return 0;
@@ -82,13 +82,14 @@ int setUpServer(char* filename) {
 }
 
 int connectToFriend(uint32_t ip, int port) {
-    uint32_t htonIp = htonl(ip);
+    uint32_t htonIp = ip;
     char bufIp[INET_ADDRSTRLEN];
     if (inet_ntop(AF_INET, &htonIp, bufIp, sizeof(bufIp)) == NULL) {
         fprintf(stderr, "IP conversion from uint32_t to string failed");
         return -1;
     }
     
+    printf("%s\n", bufIp);
     
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if (sock < 0) {
@@ -96,7 +97,6 @@ int connectToFriend(uint32_t ip, int port) {
         exit(-1);
     }
     
-    printf("hello\n");
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(port);

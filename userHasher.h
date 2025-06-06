@@ -14,6 +14,7 @@
 struct LinkedAddNode {
     uint32_t ip;
     int port;
+    char* name;
     struct LinkedAddNode* next;
 };
 
@@ -26,7 +27,7 @@ int hashFunc(uint32_t ipAdd, int port, int size);
 
 int hashSearch(uint32_t ipAdd, int port, struct HashTable* table);
 
-int hashInsert(uint32_t ipAdd, int port, struct HashTable* table);
+int hashInsert(uint32_t ipAdd, int port, char* name, struct HashTable* table);
 
 int hashDelete(uint32_t ipAdd, int port, struct HashTable* table);
 
