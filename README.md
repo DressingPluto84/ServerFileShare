@@ -1,8 +1,6 @@
 # ServerFileShare
 
-ServerFileShare is a lightweight C-based tool that allows you to host a file on your own server so others can directly connect and download it — no third parties, no cloud storage, just you and the recipient.  
-
-This is ideal for situations where you want full control over who can access your files and avoid relying on external services.
+ServerFileShare is a lightweight C-based tool that allows you to host a file on your own server so others can directly connect and download it with no third parties. This is mainly for situations where you want full control over who can access your files and avoid relying on external services.
 
 ---
 
@@ -19,7 +17,7 @@ This is ideal for situations where you want full control over who can access you
 
 ### Prerequisites
 - GCC or any C compiler.
-- Linux/macOS environment (Windows support may require modifications).
+- Linux/macOS environment.
 
 ### Installation
 1. Clone the repository:
