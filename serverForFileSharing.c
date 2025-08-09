@@ -11,14 +11,16 @@ int main(int argc, char* argv[]) {
     if (curr == (time_t)(-1)) {
         fprintf(stderr, "Error in server set up (timing)");
     }
-    
+
+    //socket set up
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     mySock = sock;
     if (sock < 0) {
         perror("socket error");
         return 0;
     }
-    
+
+    //create child process for counting how long server is open
     int f = fork();
     if (f < 0) {
         perror("forking server");
@@ -28,6 +30,7 @@ int main(int argc, char* argv[]) {
         close(sock);
         while (1) {
             if (difftime(time(NULL), curr) > serverOpen) {
+                //send signal to kill the server process
                 int killer = kill(getppid(), SIGINT);
                 if (killer < 0) {
                     perror("kill");
@@ -38,6 +41,7 @@ int main(int argc, char* argv[]) {
         }
     }
     else if (f > 0) {
+        //server side socket setup
         struct sockaddr_in addr;
         addr.sin_family = AF_INET;
         addr.sin_port = htons(port);
@@ -58,6 +62,7 @@ int main(int argc, char* argv[]) {
         }
         
         while (1) {
+            //waiting for clients to connect
             struct sockaddr_in* client = malloc(sizeof(struct sockaddr_in));
             socklen_t sizeCli = sizeof(client);
             
@@ -90,6 +95,7 @@ int main(int argc, char* argv[]) {
             struct clientInfo* cli = malloc(sizeof(struct clientInfo));
             cli->cliFd = acc;
             cli->fname = argv[2];
+            //each client get a seperate thread
             int ptc = pthread_create(&thread, NULL, writeToClient, (void *)cli);
             if (ptc > 0) {
                 fprintf(stderr, "thread creation");
