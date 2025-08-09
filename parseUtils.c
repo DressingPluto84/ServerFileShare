@@ -1,6 +1,9 @@
 #include "parseUtils.h"
 
 struct argAndLen* strSplit(char* str) {
+    /* splits arguments by spaces into a struct
+    struct has num args and each arg
+    */
     int i = 0;
     int count = 0;
     char* space = strchr(str, ' ');
