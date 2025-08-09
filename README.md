@@ -75,5 +75,18 @@ connect 192.168.1.10 8080
 ---
 
 ## Security
-- Only people you share your IP and
+- Only people you share your IP and port with can connect.
+- Password-protected connections.
+- Planned encryption support in future releases.
+
+---
+
+## License
+This project is licensed under a custom license. See `LICENSE` for details.
+
+---
+
+## Contact
+Author: **Anish Kulkarni**  
+Email: **AnishKul05@Outlook.com**
 
