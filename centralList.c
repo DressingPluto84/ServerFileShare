@@ -16,6 +16,7 @@ int addFriend(struct HashTable* hash, uint32_t ip, int port, char* name) {
     if (numFriends >= hash->size) {
         return -1;
     }
+    //inserting friend in hash table
     int k = hashInsert(ip, port, name, hash);
     if (k < 1) {
         fprintf(stderr, "Error adding new Friend");
@@ -29,6 +30,7 @@ int removeFriend(struct HashTable* hash, uint32_t ip, int port) {
     if (numFriends == 0) {
         return 0;
     }
+    // remove friend from hash table
     int hashDeleteRet = hashDelete(ip, port, hash);
     if (!hashDeleteRet) {
         fprintf(stderr, "Error removing this Friend");
@@ -39,6 +41,7 @@ int removeFriend(struct HashTable* hash, uint32_t ip, int port) {
 }
 
 int searchFriend(struct HashTable* hash, uint32_t ip, int port) {
+    //search hash table
     if (!hashSearch(ip, port, hash)) {
         return 0;
     }
@@ -64,6 +67,7 @@ int checkOnlineStatus(struct HashTable* hash, uint32_t ip, int port) {
 }
 
 int setUpServer(char* filename) {
+    //creates child process for server
     int pid = fork();
     
     if (pid < 0) {
@@ -71,6 +75,7 @@ int setUpServer(char* filename) {
         exit(-1);
     }
     else if (pid == 0) {
+        //replace child process with server program
         execlp("./serverForFileSharing", "serverForFileSharing", pass, filename, NULL);
         
         perror("Server Set Up Execlp failure");
@@ -96,7 +101,8 @@ int connectToFriend(uint32_t ip, int port) {
         perror("socket error connecting to friend");
         exit(-1);
     }
-    
+
+    //socket setup code
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(port);
@@ -106,18 +112,21 @@ int connectToFriend(uint32_t ip, int port) {
         perror("client connect failure");
         exit(-1);
     }
-    
+
+    //enter password of other person's server
     char buf[64];
     printf("Enter password:\n");
     fgets(buf, sizeof(buf), stdin);
     buf[strlen(buf)] = '\0';
     send(sock, buf, sizeof(buf), 0);
-    
+
+    //eneter the name of the file on your computer
     char fileBuf[128];
     read(sock, fileBuf, sizeof(fileBuf));
     fileBuf[127] = '\0';
     printf("File name to download: %s\n", fileBuf);
-    
+
+    //writing file to your comtuer
     char newFile[128];
     fgets(newFile, sizeof(newFile), stdin);
     newFile[127] = '\0';
