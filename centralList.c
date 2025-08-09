@@ -102,7 +102,7 @@ int connectToFriend(uint32_t ip, int port) {
         exit(-1);
     }
 
-    //socket setup code
+    //socket setup code for client side
     struct sockaddr_in serv;
     serv.sin_family = AF_INET;
     serv.sin_port = htons(port);
