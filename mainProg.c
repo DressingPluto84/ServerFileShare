@@ -2,7 +2,8 @@
 
 int main(int argc, char* argv[]) {
     char buf[256];
-    
+
+    //hahs table to hold all your friends
     struct HashTable hash;
     hash.size = 25;
     struct LinkedAddNode** lst = malloc(sizeof(struct LinkedAddNode*) * 25);
@@ -10,7 +11,8 @@ int main(int argc, char* argv[]) {
         lst[i] = malloc(sizeof(struct LinkedAddNode));
     }
     hash.vals = lst;
-    
+
+    //input loop
     while (1) {
         printf(">");
         fgets(buf, sizeof(buf), stdin);
